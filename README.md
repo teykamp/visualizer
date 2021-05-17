@@ -1,5 +1,3 @@
-# altdanalytics
-Tracking data transactions in a small community
+# visualizer
 
-
-Small project to work with servers, databases and user input.
+Make pretty colors with your mouse
