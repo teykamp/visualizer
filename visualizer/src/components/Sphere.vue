@@ -21,10 +21,52 @@ export default {
     },
 
     generatePoints(num) {
-      const bound = 10;
+      const bound = 100;
       for (let i = 0; i < num; i++) {
         this.pointList.push([this.randomNumber(bound, this.width-bound), this.randomNumber(bound, this.height-bound)])
       }
+    },
+
+    gradient(x1, x2, y1, y2) {
+      return (y2-y1) / (x2-x1);
+    },
+
+    drawCurve(f, t) {
+      this.ctx.beginPath();
+      this.ctx.moveTo(this.pointList[0][0], this.pointList[0][1]);
+    
+      var m = 0;
+      var dx1 = 0;
+      var dy1 = 0;
+      var dx2 = 0;
+      var dy2 = 0;
+
+      var preP = this.pointList[0];
+
+      for (let i = 1; i < this.pointList.length; i++) {
+          let curP = this.pointList[i];
+          let nexP = this.pointList[i + 1];
+          if (nexP) {
+              m = this.gradient(preP[0], nexP[0], preP[1], nexP[1]);
+              dx2 = (nexP[0] - curP[1]) * -f;
+              dy2 = dx2 * m * t;
+          } 
+          else {
+              dx2 = 0;
+              dy2 = 0;
+          }
+            
+          this.ctx.bezierCurveTo(
+              preP[0] - dx1, preP[1] - dy1,
+              curP[0] + dx2, curP[1] + dy2,
+              curP[0], curP[1]
+          );
+        
+          dx1 = dx2;
+          dy1 = dy2;
+          preP = curP;
+      }
+      this.ctx.stroke();
     },
 
     init() {
@@ -34,7 +76,7 @@ export default {
       this.height = canvas.height;
       canvas.width = innerWidth-20;
       this.width = canvas.width
-      this.ctx.lineWidth = 15;
+      this.ctx.lineWidth = 5;
       this.generatePoints(10);
       
     },
@@ -42,24 +84,7 @@ export default {
     animate() {
       requestAnimationFrame(this.animate);
       this.ctx.clearRect(0, 0, this.width, this.height);
-      // for (let i = 0; i < this.pointList.length; i++) {
-      //   this.ctx.beginPath();
-      //   this.ctx.arc(this.pointList[i][0], this.pointList[i][1], 5, 0, Math.PI * 2, false);
-      //   this.ctx.fillStyle = "black";
-      //   this.ctx.fill();
-      // }
-
-      this.ctx.moveTo(this.pointList[0][0], this.pointList[0][1]);
-      
-      for(let i = 0; i < this.pointList.length-1; i++) {
-        const x_mid = (this.pointList[i][0] + this.pointList[i+1][0]) / 2;
-        const y_mid = (this.pointList[i][1] + this.pointList[i+1][1]) / 2;
-        const cp_x1 = (x_mid + this.pointList[i][0]) / 2;
-        const cp_x2 = (x_mid + this.pointList[i+1][0]) / 2;
-        this.ctx.quadraticCurveTo(cp_x1, this.pointList[i][1], x_mid, y_mid);
-        this.ctx.quadraticCurveTo(cp_x2, this.pointList[i+1][1], this.pointList[i+1][0], this.pointList[i+1][1]);
-      }
-      this.ctx.stroke();
+      this.drawCurve(.5, .5);
     }
   },
 
