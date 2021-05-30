@@ -16,14 +16,15 @@ export default {
     }
   },
   methods: {
-    randomNumber(min, max) {
-      return Math.random() * (max - min) + min;
+    
+    randomNumber(min, max) {  
+      return Math.random() * (max - min) + min; 
     },
 
     generatePoints(num) {
       const bound = 100;
       for (let i = 0; i < num; i++) {
-        this.pointList.push([this.randomNumber(bound, this.width-bound), this.randomNumber(bound, this.height-bound)]);
+        this.pointList.push([this.randomNumber(bound, this.width-bound), this.randomNumber(bound, this.height-bound)])
       }
     },
 
@@ -34,7 +35,7 @@ export default {
     drawCurve(f, t) {
       this.ctx.beginPath();
       this.ctx.moveTo(this.pointList[0][0], this.pointList[0][1]);
-
+    
       var m = 0;
       var dx1 = 0;
       var dy1 = 0;
@@ -50,18 +51,18 @@ export default {
               m = this.gradient(preP[0], nexP[0], preP[1], nexP[1]);
               dx2 = (nexP[0] - curP[1]) * -f;
               dy2 = dx2 * m * t;
-          }
+          } 
           else {
               dx2 = 0;
               dy2 = 0;
           }
-
+            
           this.ctx.bezierCurveTo(
               preP[0] - dx1, preP[1] - dy1,
               curP[0] + dx2, curP[1] + dy2,
               curP[0], curP[1]
           );
-
+        
           dx1 = dx2;
           dy1 = dy2;
           preP = curP;
@@ -69,22 +70,45 @@ export default {
       this.ctx.stroke();
     },
 
+    drawBox(boxSize) {
+      const rows = Math.floor(this.height / boxSize);
+      const columns = Math.floor(this.width / boxSize);
+      const xOffset = (this.width - columns * boxSize) / 2;
+      const yOffset = (this.height - rows * boxSize) / 2;
+      this.ctx.beginPath();
+      this.ctx.fillStyle = "white";
+      this.ctx.lineWidth = 1;
+      this.ctx.strokeStyle = "black";
+      // add code for create/draw box object here
+      for (let i = 0; i < columns; i++) {
+        for (let j = 0; j < rows; j++) {
+          const x = i * boxSize + xOffset;
+          const y = j * boxSize + yOffset;
+          this.ctx.rect(x, y, boxSize, boxSize);
+        }
+      }
+      this.ctx.fill();
+      this.ctx.stroke();
+      this.ctx.closePath();
+    },
+
     init() {
       var canvas = document.getElementById("canvas");
       this.ctx = canvas.getContext("2d");
-      canvas.height = window.innerHeight-20;
+      canvas.height = window.innerHeight-30;
       this.height = canvas.height;
-      canvas.width = innerWidth-20;
+      canvas.width = innerWidth-17;
       this.width = canvas.width
       this.ctx.lineWidth = 5;
       this.generatePoints(10);
-
+      
     },
 
     animate() {
       requestAnimationFrame(this.animate);
       this.ctx.clearRect(0, 0, this.width, this.height);
-      this.drawCurve(.5, .5);
+      // this.drawCurve(.5, .5);
+      this.drawBox(20);
     }
   },
 
@@ -96,8 +120,5 @@ export default {
 </script>
 
 <style scoped>
-#canvas {
-  background: lightgoldenrodyellow;
-}
 
 </style>
