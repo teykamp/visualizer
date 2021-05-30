@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <Sphere />
+    <Canvas />
   </div>
 </template>
 
 <script>
-import Sphere from './components/Sphere.vue'
+import Canvas from './components/Canvas.vue'
 
 export default {
   name: 'App',
   components: {
-    Sphere
+    Canvas
   }
 }
 </script>

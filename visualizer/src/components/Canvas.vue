@@ -5,14 +5,18 @@
 </template>
 
 <script>
+import Cell from '../classes/Cell.js'
+
 export default {
-  name: 'Sphere',
+  name: "Cell",
   data() {
     return {
       ctx: null,
       height: 0,
       width: 0,
-      pointList: [],
+      pointList: [], // list of [x, y]
+      cellList: [], // list of Cell obj
+      globID: 0,
     }
   },
   methods: {
@@ -24,7 +28,7 @@ export default {
     generatePoints(num) {
       const bound = 100;
       for (let i = 0; i < num; i++) {
-        this.pointList.push([this.randomNumber(bound, this.width-bound), this.randomNumber(bound, this.height-bound)])
+        this.pointList.push([this.randomNumber(bound, this.width-bound), this.randomNumber(bound, this.height-bound)]);
       }
     },
 
@@ -70,22 +74,27 @@ export default {
       this.ctx.stroke();
     },
 
-    drawBox(boxSize) {
+    generateBox(boxSize) {
       const rows = Math.floor(this.height / boxSize);
       const columns = Math.floor(this.width / boxSize);
       const xOffset = (this.width - columns * boxSize) / 2;
       const yOffset = (this.height - rows * boxSize) / 2;
-      this.ctx.beginPath();
-      this.ctx.fillStyle = "white";
-      this.ctx.lineWidth = 1;
-      this.ctx.strokeStyle = "black";
-      // add code for create/draw box object here
       for (let i = 0; i < columns; i++) {
         for (let j = 0; j < rows; j++) {
           const x = i * boxSize + xOffset;
           const y = j * boxSize + yOffset;
-          this.ctx.rect(x, y, boxSize, boxSize);
+          let box = new Cell(x, y, boxSize, this.globID);
+          this.cellList.push(box);
+          this.globID++;
         }
+      }
+    },
+
+    drawBox() {
+      this.ctx.beginPath();
+      const canvas = this.ctx;
+      for (let i = 0; i < this.cellList.length; i++) {
+        this.cellList[i].draw(canvas)();        
       }
       this.ctx.fill();
       this.ctx.stroke();
@@ -102,13 +111,15 @@ export default {
       this.ctx.lineWidth = 5;
       this.generatePoints(10);
       
+      
     },
 
     animate() {
       requestAnimationFrame(this.animate);
       this.ctx.clearRect(0, 0, this.width, this.height);
       // this.drawCurve(.5, .5);
-      this.drawBox(20);
+      this.generateBox(20);
+      this.drawBox();
     }
   },
 
