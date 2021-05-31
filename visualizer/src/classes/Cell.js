@@ -11,4 +11,8 @@ export default class Cell {
         this.cellIndex = cellIndex;
     }
 
+    updateWall() {
+        this.isWall = !this.isWall;
+        this.fillStyle = this.isWall ? "black" : "white";
+    }
 }

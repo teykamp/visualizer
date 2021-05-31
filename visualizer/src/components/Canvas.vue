@@ -90,8 +90,6 @@ export default {
           cellColumn.push(cell);
           this.globID++;
           this.cellIndex[1]++;
-          console.log(this.cellIndex);
-
         }
         this.cellIndex[1] = 0;
         this.cellIndex[0]++;
@@ -115,6 +113,18 @@ export default {
       this.ctx.closePath();
     },
 
+    clickCell() {
+      // TODO: get mouse pos & check for click
+      // var cellX = parseInt(event.clientX) / this.cellSize;
+      // var cellY = Math.floor(event.clientY / this.cellSize)
+
+      // var cell = this.cellList[cellX][cellY];
+      // this.ctx.rect(cell.x, cell.y, cell.cellSize, cell.cellSize);
+      // if (this.ctx.isPointInPath(e.pageX, e.pageY)) {
+      //   cell.updateWall();
+      // }
+    },
+
     init() {
       var canvas = document.getElementById("canvas");
       this.ctx = canvas.getContext("2d");
@@ -131,7 +141,7 @@ export default {
       requestAnimationFrame(this.draw);
       this.ctx.clearRect(0, 0, this.width, this.height);
       // this.drawCurve(.5, .5);
-      this.hoverCell();
+      document.getElementById("canvas").onmousemove = this.clickCell();
       this.drawGrid();
     }
   },
