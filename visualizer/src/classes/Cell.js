@@ -10,14 +10,4 @@ export default class Cell {
         this.strokeStyle = "black";
     }
 
-    draw(ctx) {
-        // has to return a function, otherwise lag issues on load
-        // can also just draw the rect in Canvas.vue using object params
-        return () => {
-                ctx.fillStyle = this.fillStyle;
-                ctx.lineWidth = this.lineWidth;
-                ctx.strokeStyle = this.strokeStyle;
-                ctx.rect(this.x, this.y, this.cellSize, this.cellSize)
-            };
-    }
 }

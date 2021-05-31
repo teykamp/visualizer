@@ -74,7 +74,7 @@ export default {
       this.ctx.stroke();
     },
 
-    generateBox(boxSize) {
+    generateGrid(boxSize) {
       const rows = Math.floor(this.height / boxSize);
       const columns = Math.floor(this.width / boxSize);
       const xOffset = (this.width - columns * boxSize) / 2;
@@ -90,11 +90,14 @@ export default {
       }
     },
 
-    drawBox() {
+    drawGrid() {
       this.ctx.beginPath();
-      const canvas = this.ctx;
       for (let i = 0; i < this.cellList.length; i++) {
-        this.cellList[i].draw(canvas)();        
+        const cell = this.cellList[i];
+        this.ctx.fillStyle = cell.fillStyle;
+        this.ctx.lineWidth = cell.lineWidth;
+        this.ctx.strokeStyle = cell.strokeStyle;
+        this.ctx.rect(cell.x, cell.y, cell.cellSize, cell.cellSize);       
       }
       this.ctx.fill();
       this.ctx.stroke();
@@ -109,23 +112,21 @@ export default {
       canvas.width = innerWidth-17;
       this.width = canvas.width
       this.ctx.lineWidth = 5;
-      this.generatePoints(10);
-      
-      
+      this.generateGrid(20);
+      // this.generatePoints(10);
     },
 
-    animate() {
-      requestAnimationFrame(this.animate);
+    draw() {
+      requestAnimationFrame(this.draw);
       this.ctx.clearRect(0, 0, this.width, this.height);
       // this.drawCurve(.5, .5);
-      this.generateBox(20);
-      this.drawBox();
+      this.drawGrid();
     }
   },
 
   mounted() {
     this.init();
-    this.animate();
+    this.draw();
   }
 }
 </script>
