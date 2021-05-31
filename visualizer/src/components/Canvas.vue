@@ -17,12 +17,13 @@ export default {
       pointList: [], // list of [x, y]
       cellList: [], // list of Cell obj
       globID: 0,
+      cellIndex: [0, 0],
     }
   },
   methods: {
-    
-    randomNumber(min, max) {  
-      return Math.random() * (max - min) + min; 
+
+    randomNumber(min, max) {
+      return Math.random() * (max - min) + min;
     },
 
     generatePoints(num) {
@@ -39,7 +40,7 @@ export default {
     drawCurve(f, t) {
       this.ctx.beginPath();
       this.ctx.moveTo(this.pointList[0][0], this.pointList[0][1]);
-    
+
       var m = 0;
       var dx1 = 0;
       var dy1 = 0;
@@ -55,18 +56,18 @@ export default {
               m = this.gradient(preP[0], nexP[0], preP[1], nexP[1]);
               dx2 = (nexP[0] - curP[1]) * -f;
               dy2 = dx2 * m * t;
-          } 
+          }
           else {
               dx2 = 0;
               dy2 = 0;
           }
-            
+
           this.ctx.bezierCurveTo(
               preP[0] - dx1, preP[1] - dy1,
               curP[0] + dx2, curP[1] + dy2,
               curP[0], curP[1]
           );
-        
+
           dx1 = dx2;
           dy1 = dy2;
           preP = curP;
@@ -80,24 +81,33 @@ export default {
       const xOffset = (this.width - columns * boxSize) / 2;
       const yOffset = (this.height - rows * boxSize) / 2;
       for (let i = 0; i < columns; i++) {
+        var cellColumn = [];
         for (let j = 0; j < rows; j++) {
           const x = i * boxSize + xOffset;
           const y = j * boxSize + yOffset;
-          let box = new Cell(x, y, boxSize, this.globID);
-          this.cellList.push(box);
+          let cell = new Cell(x, y, boxSize, this.globID, this.cellIndex);
+          cellColumn.push(cell);
           this.globID++;
+          this.cellIndex[1]++;
+          console.log(this.cellIndex);
+
         }
+        this.cellIndex[1] = 0;
+        this.cellIndex[0]++;
+        this.cellList.push(cellColumn);
       }
     },
 
     drawGrid() {
       this.ctx.beginPath();
       for (let i = 0; i < this.cellList.length; i++) {
-        const cell = this.cellList[i];
-        this.ctx.fillStyle = cell.fillStyle;
-        this.ctx.lineWidth = cell.lineWidth;
-        this.ctx.strokeStyle = cell.strokeStyle;
-        this.ctx.rect(cell.x, cell.y, cell.cellSize, cell.cellSize);       
+        for (let j = 0; j < this.cellList[i].length; j++) {
+          const cell = this.cellList[i][j];
+          this.ctx.fillStyle = cell.fillStyle;
+          this.ctx.lineWidth = cell.lineWidth;
+          this.ctx.strokeStyle = cell.strokeStyle;
+          this.ctx.rect(cell.x, cell.y, cell.cellSize, cell.cellSize);
+        }
       }
       this.ctx.fill();
       this.ctx.stroke();
@@ -113,6 +123,7 @@ export default {
       this.width = canvas.width
       this.ctx.lineWidth = 5;
       this.generateGrid(20);
+      console.log(this.cellList)
       // this.generatePoints(10);
     },
 

@@ -1,13 +1,14 @@
 export default class Cell {
-    constructor(x, y, cellSize, id) {
+    constructor(x, y, cellSize, globID, cellIndex) {
         this.x = x;
         this.y = y;
         this.cellSize = cellSize;
         this.isWall = false;
-        this.id = id;
+        this.globID = globID;
         this.fillStyle = "white";
         this.lineWidth = 1;
         this.strokeStyle = "black";
+        this.cellIndex = cellIndex;
     }
 
 }
