@@ -18,6 +18,7 @@ export default {
       cellList: [], // list of Cell obj
       globID: 0,
       cellIndex: [0, 0],
+      cellSize: 20,
     }
   },
   methods: {
@@ -122,8 +123,7 @@ export default {
       canvas.width = innerWidth-17;
       this.width = canvas.width
       this.ctx.lineWidth = 5;
-      this.generateGrid(20);
-      console.log(this.cellList)
+      this.generateGrid(this.cellSize);
       // this.generatePoints(10);
     },
 
@@ -131,6 +131,7 @@ export default {
       requestAnimationFrame(this.draw);
       this.ctx.clearRect(0, 0, this.width, this.height);
       // this.drawCurve(.5, .5);
+      this.hoverCell();
       this.drawGrid();
     }
   },
