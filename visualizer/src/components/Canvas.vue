@@ -141,7 +141,7 @@ export default {
       requestAnimationFrame(this.draw);
       this.ctx.clearRect(0, 0, this.width, this.height);
       // this.drawCurve(.5, .5);
-      document.getElementById("canvas").onmousemove = this.clickCell();
+      this.clickCell();
       this.drawGrid();
     }
   },
