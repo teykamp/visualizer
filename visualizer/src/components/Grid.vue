@@ -1,24 +1,34 @@
 <template>
   <div>
-    <canvas id="canvas"/>
+      <!-- grid -->
+    <div class="grid">
+      <div class="row" v-for="cellRow in cellList" v-bind:key="cellRow">
+          <CellRow v-bind:cellRow="cellRow"/>
+      </div>
+    </div>
+      
   </div>
 </template>
 
 <script>
-import Cell from '../classes/Cell.js'
+import Cell from "../classes/Cell.js"
+import CellRow from "./CellRow.vue";
 
 export default {
-  name: "Cell",
+  name: "Grid",
+  components: {
+    CellRow
+  },
   data() {
     return {
-      ctx: null,
-      height: 0,
-      width: 0,
-      pointList: [], // list of [x, y]
-      cellList: [], // list of Cell obj
-      globID: 0,
-      cellIndex: [0, 0],
-      cellSize: 50,
+        ctx: null,
+        height: 0,
+        width: 0,
+        pointList: [], // list of [x, y]
+        cellList: [], // list of Cell obj
+        globID: 0, // can probably be local to generateGrid()
+        cellIndex: [0, 0], // can probably be local to generateGrid()
+        cellSize: 30,
     }
   },
   methods: {
@@ -97,71 +107,27 @@ export default {
       }
     },
 
-    drawGrid() {
-      this.ctx.beginPath();
-      for (let i = 0; i < this.cellList.length; i++) {
-        for (let j = 0; j < this.cellList[i].length; j++) {
-          const cell = this.cellList[i][j];
-          this.ctx.fillStyle = cell.fillStyle;
-          this.ctx.lineWidth = cell.lineWidth;
-          this.ctx.strokeStyle = cell.strokeStyle;
-          this.ctx.rect(cell.x, cell.y, cell.cellSize, cell.cellSize);
-          
-        }
-      }
-      this.ctx.fill();
-      this.ctx.stroke();
-      this.ctx.closePath();
-    },
 
-    updateCell(canvas, event) {
-      // line below gives error..???
-      const rect = canvas.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-
-      var cellX = Math.floor(x / this.cellSize);
-      var cellY = Math.floor(y / this.cellSize);
-
-      var cell = this.cellList[cellX][cellY];
-      console.log(cell);
-      cell.updateWall();
-      // }
-    },
-
-    init() {
-      var canvas = document.getElementById("canvas");
-      this.ctx = canvas.getContext("2d");
-      canvas.height = window.innerHeight-30;
-      this.height = canvas.height;
-      canvas.width = innerWidth-17;
-      this.width = canvas.width
-      this.ctx.lineWidth = 5;
+    init() { 
+      // need to make this useable for alternate boxSizes
+      // currently wraps when window resized without reload
+      this.height = window.innerHeight * 0.9;
+      this.width = window.innerWidth * 0.92;
+      console.log(this.width, this.height)
       this.generateGrid(this.cellSize);
       // this.generatePoints(10);
-
-      canvas = document.querySelector("canvas");
-      const tmp = this;
-      canvas.addEventListener("mousedown", function(e) {
-        tmp.updateCell(canvas, e);
-      });
     },
-
-    draw() {
-      requestAnimationFrame(this.draw);
-      this.ctx.clearRect(0, 0, this.width, this.height);
-      // this.drawCurve(.5, .5);
-      this.drawGrid();
-    }
   },
 
   mounted() {
     this.init();
-    this.draw();
-  }
+    // this.draw();
+  },
 }
 </script>
 
 <style scoped>
-
+.row{
+  display: inline-flex;
+}
 </style>

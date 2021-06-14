@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <Canvas />
+    <Grid />
   </div>
 </template>
 
 <script>
-import Canvas from './components/Canvas.vue'
+import Grid from "./components/Grid.vue"
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    Canvas
+    Grid
   }
 }
 </script>

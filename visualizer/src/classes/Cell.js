@@ -3,11 +3,12 @@ export default class Cell {
         this.x = x;
         this.y = y;
         this.cellSize = cellSize;
+        this.cellCenter = [x + cellSize/2, y + cellSize/2];
         this.isWall = false;
         this.globID = globID;
         this.fillStyle = "white";
         this.lineWidth = 1;
-        this.strokeStyle = "black";
+        this.borderStyle = "1px solid black";
         this.cellIndex = cellIndex;
     }
 
