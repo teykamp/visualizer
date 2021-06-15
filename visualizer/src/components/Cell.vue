@@ -34,5 +34,6 @@ export default {
 box-shadow: 4px 4px 7px;
 transform: scale(1.25);
 z-index: 100;
+transition: 30ms ease-out;
 }
 </style>
