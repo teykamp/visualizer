@@ -1,6 +1,6 @@
 <template>
   <div>
-      <div class="cell" :style="{'width': cell.cellSize+'px', 'height': cell.cellSize+'px', 'border': cell.borderStyle}"></div>
+      <div class="cell" :style="{'width': cell.cellSize+'px', 'height': cell.cellSize+'px', 'border': cell.borderStyle, 'background-color': cell.fillStyle}" v-on:click="toggleWall()"></div>
   </div>
 </template>
 
@@ -16,6 +16,12 @@ export default {
     props: [
         "cell"
     ],
+    methods: {
+        // todo:  make draggable wall painting
+        toggleWall() {
+            this.cell.updateWall();
+        }
+    },
 
     mounted() {
 
@@ -25,7 +31,6 @@ export default {
  
 <style scoped>
 .cell:hover {
-background-color: darkgray;
 box-shadow: 4px 4px 7px;
 transform: scale(1.25);
 z-index: 100;
