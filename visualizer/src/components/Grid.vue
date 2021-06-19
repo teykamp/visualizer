@@ -1,7 +1,7 @@
 <template>
   <div>
       <!-- grid -->
-    <div class="grid">
+    <div id="grid">
       <div class="row" v-for="cellRow in cellList" v-bind:key="cellRow">
           <CellRow v-bind:cellRow="cellRow"/>
       </div>
@@ -107,6 +107,32 @@ export default {
       }
     },
 
+    findObjectCoords(mouseEvent) {
+      var obj = document.getElementById("objectBox");
+      var obj_left = 0;
+      var obj_top = 0;
+      var xpos;
+      var ypos;
+      while (obj.offsetParent)
+      {
+        obj_left += obj.offsetLeft;
+        obj_top += obj.offsetTop;
+        obj = obj.offsetParent;
+      }
+      if (mouseEvent) {
+        //FireFox
+        xpos = mouseEvent.pageX;
+        ypos = mouseEvent.pageY;
+      }
+      else {
+        //IE
+        xpos = window.event.x + document.body.scrollLeft - 2;
+        ypos = window.event.y + document.body.scrollTop - 2;
+      }
+      xpos -= obj_left;
+      ypos -= obj_top;
+      console.log(xpos, ypos);
+    },
 
     init() { 
       // need to make this useable for alternate boxSizes
@@ -115,7 +141,9 @@ export default {
       this.width = window.innerWidth * 0.92;
       console.log(this.width, this.height)
       this.generateGrid(this.cellSize);
+      document.getElementById("grid").onmousemove = this.findObjectCoords();
       // this.generatePoints(10);
+      
     },
   },
 

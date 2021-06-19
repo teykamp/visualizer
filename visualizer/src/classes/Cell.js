@@ -16,4 +16,14 @@ export default class Cell {
         this.isWall = !this.isWall;
         this.fillStyle = this.isWall ? "black" : "white";
     }
+
+    setWall() {
+        this.isWall = true;
+        this.fillStyle = "black";
+    }
+
+    removeWall() {
+        this.isWall = false;
+        this.fillStyle = "white";
+    }
 }
