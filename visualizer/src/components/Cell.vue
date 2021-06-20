@@ -29,10 +29,10 @@ export default {
     ],
 
     methods: {
-        // todo:  make draggable wall painting
         toggleWall() {
             this.wallDrawingMode ? this.cell.removeWall() : this.cell.setWall();
         },
+
         onMouseDrag() {
             if (this.isMouseDown) {
                 this.toggleWall();
@@ -43,10 +43,6 @@ export default {
             this.toggleWall();
         },
     },
-
-    mounted() {
-
-    }
 }
 </script>
 

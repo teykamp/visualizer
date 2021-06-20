@@ -35,8 +35,8 @@ export default {
         globID: 0, // can probably be local to generateGrid()
         cellIndex: [0, 0], // can probably be local to generateGrid()
         cellSize: 30,
-        isMouseDown: false,
-        wallDrawingMode: false,
+        isMouseDown: false, // checks if mouse button pressed
+        wallDrawingMode: false, // checks if adding or reomving walls based on first cell from mouse drag
     }
   },
   methods: {
