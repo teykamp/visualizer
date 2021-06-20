@@ -34,11 +34,11 @@ export default {
         },
         onMouseDrag() {
             if (this.isMouseDown) {
-                this.wallDrawingMode ? this.cell.setWall() : this.cell.removeWall();
+                this.wallDrawingMode ? this.cell.removeWall() : this.cell.setWall();
             }
         },
         updateWallDrawingMode() {
-            this.$emit("wallDrawingMode", !this.cell.isWall);
+            this.$emit("wallDrawingMode", this.cell.isWall);
         },
     },
 
