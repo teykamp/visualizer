@@ -31,16 +31,16 @@ export default {
     methods: {
         // todo:  make draggable wall painting
         toggleWall() {
-            this.cell.updateWall();
+            this.wallDrawingMode ? this.cell.removeWall() : this.cell.setWall();
         },
         onMouseDrag() {
             if (this.isMouseDown) {
-                this.wallDrawingMode ? this.cell.removeWall() : this.cell.setWall();
+                this.toggleWall();
             }
         },
         updateWallDrawingMode() {
             this.$emit("wallDrawingMode", this.cell.isWall);
-            this.wallDrawingMode ? this.cell.removeWall() : this.cell.setWall();
+            this.toggleWall();
         },
     },
 
