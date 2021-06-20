@@ -7,7 +7,8 @@
                     'background-color': cell.fillStyle}"
             v-on:click="toggleWall()"
             @mouseover="onMouseDrag()"
-            @mousedown="updateWallDrawingMode()"></div>
+            @mousedown="updateWallDrawingMode()"
+            ></div>
 
   </div>
 </template>

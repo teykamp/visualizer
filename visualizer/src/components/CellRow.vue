@@ -4,7 +4,8 @@
         <Cell v-bind:cell="cell"
               v-bind:isMouseDown="isMouseDown"
               v-bind:wallDrawingMode="wallDrawingMode"
-              v-on:wallDrawingMode="emitHelper($event)"/>
+              v-on:wallDrawingMode="emitHelper($event)"
+              />
       </div>
   </div>
 </template>
