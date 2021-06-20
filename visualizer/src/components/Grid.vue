@@ -36,7 +36,7 @@ export default {
         cellIndex: [0, 0], // can probably be local to generateGrid()
         cellSize: 30,
         isMouseDown: false,
-        wallDrawingMode: true,
+        wallDrawingMode: false,
     }
   },
   methods: {

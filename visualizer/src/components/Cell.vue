@@ -7,7 +7,7 @@
                     'background-color': cell.fillStyle}"
             v-on:click="toggleWall()"
             @mouseover="onMouseDrag()"
-            @mousedown="updateWallDrawingMode()"
+            @mousedown="updateWallDrawingMode(), onMouseDrag()"
             ></div>
 
   </div>
@@ -40,6 +40,7 @@ export default {
         },
         updateWallDrawingMode() {
             this.$emit("wallDrawingMode", this.cell.isWall);
+            this.wallDrawingMode ? this.cell.removeWall() : this.cell.setWall();
         },
     },
 
