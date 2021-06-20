@@ -1,11 +1,14 @@
 <template>
   <div>
-      <div  class="cell" 
-            :style="{'width': cell.cellSize+'px', 
-                                'height': cell.cellSize+'px', 
-                                'border': cell.borderStyle, 
-                                'background-color': cell.fillStyle}" 
-            v-on:click="toggleWall()"></div>
+      <div  class="cell"
+            :style="{'width': cell.cellSize+'px',
+                    'height': cell.cellSize+'px',
+                    'border': cell.borderStyle,
+                    'background-color': cell.fillStyle}"
+            v-on:click="toggleWall()"
+            @mouseover="onMouseDrag()"
+            @mousedown="updateWallDrawingMode()"></div>
+
   </div>
 </template>
 
@@ -14,18 +17,29 @@ export default {
     name: "Cell",
     data() {
         return {
-
+            hover: false,
         }
     },
 
     props: [
-        "cell"
+        "cell",
+        "isMouseDown",
+        "wallDrawingMode",
     ],
+
     methods: {
         // todo:  make draggable wall painting
         toggleWall() {
             this.cell.updateWall();
-        }
+        },
+        onMouseDrag() {
+            if (this.isMouseDown) {
+                this.wallDrawingMode ? this.cell.setWall() : this.cell.removeWall();
+            }
+        },
+        updateWallDrawingMode() {
+            this.$emit("wallDrawingMode", !this.cell.isWall);
+        },
     },
 
     mounted() {
@@ -33,7 +47,7 @@ export default {
     }
 }
 </script>
- 
+
 <style scoped>
 .cell:hover {
 box-shadow: 4px 4px 7px;

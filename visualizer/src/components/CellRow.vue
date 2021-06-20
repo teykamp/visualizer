@@ -1,7 +1,10 @@
 <template>
   <div>
       <div div class="row" v-for="cell in cellRow" v-bind:key="cell.globID">
-        <Cell v-bind:cell="cell"/>
+        <Cell v-bind:cell="cell"
+              v-bind:isMouseDown="isMouseDown"
+              v-bind:wallDrawingMode="wallDrawingMode"
+              v-on:wallDrawingMode="emitHelper($event)"/>
       </div>
   </div>
 </template>
@@ -22,15 +25,23 @@ export default {
     },
 
     props: [
-        "cellRow"
+        "cellRow",
+        "isMouseDown",
+        "wallDrawingMode",
     ],
+
+    methods: {
+        emitHelper(emitted) {
+            this.$emit("wallDrawingMode", emitted)
+        },
+    },
 
     mounted() {
 
     }
 }
 </script>
- 
+
 <style>
 
 </style>

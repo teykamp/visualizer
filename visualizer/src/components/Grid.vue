@@ -1,12 +1,17 @@
 <template>
   <div>
       <!-- grid -->
-    <div id="grid">
+    <div id="grid" @mousedown="isMouseDown = true"
+                   @mouseup="isMouseDown = false">
       <div class="row" v-for="cellRow in cellList" v-bind:key="cellRow">
-          <CellRow v-bind:cellRow="cellRow"/>
+          <CellRow v-bind:cellRow="cellRow"
+                   v-bind:isMouseDown="isMouseDown"
+                   v-bind:wallDrawingMode="wallDrawingMode"
+                   v-on:wallDrawingMode="emitHelper($event)"
+                   />
       </div>
     </div>
-      
+
   </div>
 </template>
 
@@ -29,9 +34,15 @@ export default {
         globID: 0, // can probably be local to generateGrid()
         cellIndex: [0, 0], // can probably be local to generateGrid()
         cellSize: 30,
+        isMouseDown: false,
+        wallDrawingMode: true,
     }
   },
   methods: {
+
+    emitHelper(emitted) {
+        this.wallDrawingMode = emitted;
+    },
 
     randomNumber(min, max) {
       return Math.random() * (max - min) + min;
@@ -134,7 +145,7 @@ export default {
       console.log(xpos, ypos);
     },
 
-    init() { 
+    init() {
       // need to make this useable for alternate boxSizes
       // currently wraps when window resized without reload
       this.height = window.innerHeight * 0.9;
@@ -143,7 +154,7 @@ export default {
       this.generateGrid(this.cellSize);
       document.getElementById("grid").onmousemove = this.findObjectCoords();
       // this.generatePoints(10);
-      
+
     },
   },
 
