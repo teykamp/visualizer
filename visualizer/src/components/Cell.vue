@@ -49,6 +49,15 @@ export default {
 </script>
 
 <style scoped>
+.cell {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
 .cell:hover {
 box-shadow: 4px 4px 7px;
 transform: scale(1.25);
