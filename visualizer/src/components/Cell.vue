@@ -39,7 +39,8 @@ export default {
             }
         },
         updateWallDrawingMode() {
-            this.$emit("wallDrawingMode", this.cell.isWall);
+            const isWall = (this.cell.fillStyle == this.cell.cellType.WALL) ? true : false;
+            this.$emit("wallDrawingMode", isWall);
             this.toggleWall();
         },
     },

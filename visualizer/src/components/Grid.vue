@@ -34,7 +34,7 @@ export default {
         cellList: [], // list of Cell obj
         globID: 0, // can probably be local to generateGrid()
         cellIndex: [0, 0], // can probably be local to generateGrid()
-        cellSize: 30,
+        cellSize: 30, // cellsize is default 30
         isMouseDown: false, // checks if mouse button pressed
         wallDrawingMode: false, // checks if adding or reomving walls based on first cell from mouse drag
     }

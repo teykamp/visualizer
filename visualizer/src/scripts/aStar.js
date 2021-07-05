@@ -1,3 +1,7 @@
+/*
+    maybe make these a class? then we could have different functions that do different algorithms and we just call that class function?
+*/
+
 function getNeighbors(cellIndex) {
     neighborIndices = [ [cellIndex[0] - 1, cellIndex[1]],
                         [cellIndex[0] + 1, cellIndex[1]],

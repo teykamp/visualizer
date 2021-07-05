@@ -4,26 +4,28 @@ export default class Cell {
         this.y = y;
         this.cellSize = cellSize;
         this.cellCenter = [x + cellSize/2, y + cellSize/2];
-        this.isWall = false;
         this.globID = globID;
         this.fillStyle = "white";
         this.lineWidth = 1;
         this.borderStyle = "1px solid black";
         this.cellIndex = cellIndex;
+        this.cellType = {
+            WALL: "black",
+            START: "mint",
+            FINISH: "gold",
+            EMPTY: "white"
+        };
     }
 
-    updateWall() {
-        this.isWall = !this.isWall;
-        this.fillStyle = this.isWall ? "black" : "white";
+    toggleWall() {
+        this.fillStyle = (this.fillStyle == this.cellType.WALL) ? this.cellType.EMPTY : this.cellType.WALL;
     }
 
     setWall() {
-        this.isWall = true;
-        this.fillStyle = "black";
+        this.fillStyle = this.cellType.WALL;
     }
 
     removeWall() {
-        this.isWall = false;
-        this.fillStyle = "white";
+        this.fillStyle = this.cellType.EMPTY;
     }
 }
