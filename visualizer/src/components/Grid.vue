@@ -117,6 +117,12 @@ export default {
         this.cellIndex[0]++;
         this.cellList.push(cellColumn);
       }
+
+      // set top left/bottom right as start/finish
+      let cellStart = this.cellList[0][0];
+      cellStart.fillStyle = cellStart.cellType.START;
+      let cellEnd = this.cellList[columns-1][rows-1];
+      cellEnd.fillStyle = cellEnd.cellType.FINISH;
     },
 
     init() {
@@ -124,7 +130,6 @@ export default {
       // currently wraps when window resized without reload
       this.height = window.innerHeight * 0.9;
       this.width = window.innerWidth * 0.92;
-      console.log(this.width, this.height)
       this.generateGrid(this.cellSize);
       document.getElementById("grid").onmousemove = this.findObjectCoords();
       // this.generatePoints(10);

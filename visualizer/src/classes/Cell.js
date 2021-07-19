@@ -9,9 +9,10 @@ export default class Cell {
         this.lineWidth = 1;
         this.borderStyle = "1px solid black";
         this.cellIndex = cellIndex;
+        // add images for start/finish
         this.cellType = {
             WALL: "black",
-            START: "mint",
+            START: "#00cc99", // mint
             FINISH: "gold",
             EMPTY: "white"
         };
@@ -22,10 +23,16 @@ export default class Cell {
     }
 
     setWall() {
-        this.fillStyle = this.cellType.WALL;
+        if (this.fillStyle == this.cellType.EMPTY) {
+            // no paving over start/finish
+            this.fillStyle = this.cellType.WALL;
+        }
     }
 
     removeWall() {
-        this.fillStyle = this.cellType.EMPTY;
+        if (this.fillStyle == this.cellType.WALL) {
+            // no paving over start/finish
+            this.fillStyle = this.cellType.EMPTY;
+        }
     }
 }
