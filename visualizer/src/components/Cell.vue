@@ -1,16 +1,16 @@
 <template>
-  <div>
-      <div  class="cell"
+    <div>
+        <div  class="cell"
             :style="{'width': cell.cellSize+'px',
                     'height': cell.cellSize+'px',
                     'border': cell.borderStyle,
                     'background-color': cell.fillStyle}"
-            v-on:click="toggleWall()"
+            v-on:click="toggleDraw()"
             @mouseover="onMouseDrag()"
             @mousedown="updateWallDrawingMode(), onMouseDrag()"
-            ></div>
-
-  </div>
+        ></div>
+<!-- add if statement here to maybe have start/finish images? -->
+    </div>
 </template>
 
 <script>
@@ -29,19 +29,46 @@ export default {
     ],
 
     methods: {
-        toggleWall() {
-            this.wallDrawingMode ? this.cell.removeWall() : this.cell.setWall();
+        toggleDraw() {
+            switch (this.wallDrawingMode) {
+                case this.cell.cellType.WALL:
+                    this.cell.removeWall();
+                    break;
+                case this.cell.cellType.EMPTY:
+                    this.cell.setWall();
+                    break;
+                case this.cell.cellType.START:
+                    break;
+                case this.cell.cellType.FINISH:
+                    break;
+            }
+            // this.wallDrawingMode ? this.cell.removeWall() : this.cell.setWall();
         },
 
         onMouseDrag() {
             if (this.isMouseDown) {
-                this.toggleWall();
+                this.toggleDraw();
             }
         },
         updateWallDrawingMode() {
-            const isWall = (this.cell.fillStyle == this.cell.cellType.WALL) ? true : false;
-            this.$emit("wallDrawingMode", isWall);
-            this.toggleWall();
+            switch (this.cell.fillStyle) {
+                case this.cell.cellType.WALL:
+                    this.$emit("wallDrawingMode", this.cell.cellType.WALL);
+                    break;
+                case this.cell.cellType.EMPTY:
+                    this.$emit("wallDrawingMode", this.cell.cellType.EMPTY)
+                    break;
+                case this.cell.cellType.START:
+                    this.$emit("wallDrawingMode", this.cell.cellType.START)
+                    break;
+                case this.cell.cellType.FINISH:
+                    this.$emit("wallDrawingMode", this.cell.cellType.FINISH)
+                    break;
+            }
+
+            // const isWall = (this.cell.fillStyle == this.cell.cellType.WALL) ? true : false;
+            // this.$emit("wallDrawingMode", isWall);
+            this.toggleDraw();
         },
     },
 }
