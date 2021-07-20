@@ -8,6 +8,7 @@
             v-on:click="toggleDraw()"
             @mouseover="onMouseDrag()"
             @mousedown="updateWallDrawingMode(), onMouseDrag()"
+            @mouseout="mouseOff()"
         ></div>
 <!-- add if statement here to maybe have start/finish images? -->
     </div>
@@ -27,7 +28,8 @@ export default {
         "isMouseDown",
         "wallDrawingMode",
     ],
-
+// TODO: make start/finish not draggable ontop of eachother
+// TODO: fix start/finish copying
     methods: {
         toggleDraw() {
             switch (this.wallDrawingMode) {
@@ -38,8 +40,10 @@ export default {
                     this.cell.setWall();
                     break;
                 case this.cell.cellType.START:
+                    this.cell.setStart();
                     break;
                 case this.cell.cellType.FINISH:
+                    this.cell.setFinish();
                     break;
             }
             // this.wallDrawingMode ? this.cell.removeWall() : this.cell.setWall();
@@ -50,6 +54,17 @@ export default {
                 this.toggleDraw();
             }
         },
+
+        mouseOff() {
+            if (this.isMouseDown) {
+                if (this.cell.fillStyle == this.cell.cellType.START || this.cell.fillStyle == this.cell.cellType.FINISH) {
+                    if (this.wallDrawingMode != this.cell.cellType.WALL && this.wallDrawingMode != this.cell.cellType.EMPTY) {
+                        this.cell.fillStyle = this.cell.prevType;
+                    }                    
+                }
+            }
+        },
+        
         updateWallDrawingMode() {
             switch (this.cell.fillStyle) {
                 case this.cell.cellType.WALL:

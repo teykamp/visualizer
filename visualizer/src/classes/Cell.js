@@ -16,6 +16,7 @@ export default class Cell {
             FINISH: "gold",
             EMPTY: "white"
         };
+        this.prevType = this.cellType.EMPTY;
     }
 
     toggleWall() {
@@ -34,5 +35,15 @@ export default class Cell {
             // no paving over start/finish
             this.fillStyle = this.cellType.EMPTY;
         }
+    }
+
+    setStart() {
+        this.prevType = this.fillStyle;
+        this.fillStyle = this.cellType.START;
+    }
+
+    setFinish() {
+        this.prevType = this.fillStyle;
+        this.fillStyle = this.cellType.FINISH;
     }
 }
