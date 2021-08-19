@@ -28,7 +28,6 @@ export default {
         "wallDrawingMode",
     ],
 // TODO: make start/finish not draggable ontop of eachother
-// TODO: fix start/finish copying
     methods: {
         toggleDraw() {
             console.log(this.wallDrawingMode);
