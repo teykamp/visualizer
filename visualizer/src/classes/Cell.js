@@ -38,12 +38,16 @@ export default class Cell {
     }
 
     setStart() {
-        this.prevType = this.fillStyle;
+        if (this.fillStyle != this.cellType.START && this.fillStyle != this.cellType.FINISH) {
+            this.prevType = this.fillStyle;
+        }
         this.fillStyle = this.cellType.START;
     }
 
     setFinish() {
-        this.prevType = this.fillStyle;
+        if (this.fillStyle != this.cellType.START && this.fillStyle != this.cellType.FINISH) {
+            this.prevType = this.fillStyle;
+        }
         this.fillStyle = this.cellType.FINISH;
     }
 }

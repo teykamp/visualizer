@@ -5,9 +5,8 @@
                     'height': cell.cellSize+'px',
                     'border': cell.borderStyle,
                     'background-color': cell.fillStyle}"
-            v-on:click="toggleDraw()"
             @mouseover="onMouseDrag()"
-            @mousedown="updateWallDrawingMode(), onMouseDrag()"
+            @mousedown="updateWallDrawingMode()"
             @mouseout="mouseOff()"
         ></div>
 <!-- add if statement here to maybe have start/finish images? -->
@@ -32,6 +31,7 @@ export default {
 // TODO: fix start/finish copying
     methods: {
         toggleDraw() {
+            console.log(this.wallDrawingMode);
             switch (this.wallDrawingMode) {
                 case this.cell.cellType.WALL:
                     this.cell.removeWall();
@@ -69,15 +69,19 @@ export default {
             switch (this.cell.fillStyle) {
                 case this.cell.cellType.WALL:
                     this.$emit("wallDrawingMode", this.cell.cellType.WALL);
+                    this.wallDrawingMode = this.cell.cellType.WALL;
                     break;
                 case this.cell.cellType.EMPTY:
-                    this.$emit("wallDrawingMode", this.cell.cellType.EMPTY)
+                    this.$emit("wallDrawingMode", this.cell.cellType.EMPTY);
+                    this.wallDrawingMode = this.cell.cellType.EMPTY;
                     break;
                 case this.cell.cellType.START:
-                    this.$emit("wallDrawingMode", this.cell.cellType.START)
+                    this.$emit("wallDrawingMode", this.cell.cellType.START);
+                    this.wallDrawingMode = this.cell.cellType.START;
                     break;
                 case this.cell.cellType.FINISH:
-                    this.$emit("wallDrawingMode", this.cell.cellType.FINISH)
+                    this.$emit("wallDrawingMode", this.cell.cellType.FINISH);
+                    this.wallDrawingMode = this.cell.cellType.FINISH;
                     break;
             }
 

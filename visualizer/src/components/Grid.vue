@@ -49,6 +49,12 @@ export default {
       return Math.random() * (max - min) + min;
     },
 
+    trackSpecial() {
+      return
+      // update start/finish variable (add above)
+      // have cell emit coords when it becomes a start/finish (emit when mouse up)
+    },
+
     generatePoints(num) {
       const bound = 100;
       for (let i = 0; i < num; i++) {
@@ -131,7 +137,7 @@ export default {
       this.height = window.innerHeight * 0.9;
       this.width = window.innerWidth * 0.92;
       this.generateGrid(this.cellSize);
-      document.getElementById("grid").onmousemove = this.findObjectCoords();
+      // document.getElementById("grid").onmousemove = this.findObjectCoords();
       // this.generatePoints(10);
 
     },
