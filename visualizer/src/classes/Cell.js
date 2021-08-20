@@ -40,14 +40,14 @@ export default class Cell {
     setStart() {
         if (this.fillStyle != this.cellType.START && this.fillStyle != this.cellType.FINISH) {
             this.prevType = this.fillStyle;
+            this.fillStyle = this.cellType.START;
         }
-        this.fillStyle = this.cellType.START;
     }
 
     setFinish() {
         if (this.fillStyle != this.cellType.START && this.fillStyle != this.cellType.FINISH) {
             this.prevType = this.fillStyle;
+            this.fillStyle = this.cellType.FINISH;
         }
-        this.fillStyle = this.cellType.FINISH;
     }
 }

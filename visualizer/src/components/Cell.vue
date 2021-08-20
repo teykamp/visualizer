@@ -26,6 +26,8 @@ export default {
         "cell",
         "isMouseDown",
         "wallDrawingMode",
+        "startIndex",
+        "finishIndex",
     ],
 // TODO: make start/finish not draggable ontop of eachother
     methods: {
@@ -34,15 +36,19 @@ export default {
             switch (this.wallDrawingMode) {
                 case this.cell.cellType.WALL:
                     this.cell.removeWall();
+                    this.$emit("updateIndex", {action: "removeWall", index: this.cellIndex});
                     break;
                 case this.cell.cellType.EMPTY:
                     this.cell.setWall();
+                    this.$emit("updateIndex", {action: "addWall", index: this.cellIndex});
                     break;
                 case this.cell.cellType.START:
                     this.cell.setStart();
+                    this.$emit("updateIndex", {action: "updateStart", index: this.cellIndex});
                     break;
                 case this.cell.cellType.FINISH:
                     this.cell.setFinish();
+                    this.$emit("updateIndex", {action: "updateFinish", index: this.cellIndex});
                     break;
             }
             // this.wallDrawingMode ? this.cell.removeWall() : this.cell.setWall();

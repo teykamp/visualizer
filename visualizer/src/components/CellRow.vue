@@ -4,7 +4,10 @@
         <Cell v-bind:cell="cell"
               v-bind:isMouseDown="isMouseDown"
               v-bind:wallDrawingMode="wallDrawingMode"
-              v-on:wallDrawingMode="emitHelper($event)"
+              v-bind:startIndex="startIndex"
+              v-bind:finishIndex="finishIndex"
+              v-on:wallDrawingMode="drawEmitHelper($event)"
+              v-on:updateIndex="indexEmitHelper($event)"
               />
       </div>
   </div>
@@ -29,17 +32,19 @@ export default {
         "cellRow",
         "isMouseDown",
         "wallDrawingMode",
+        "startIndex",
+        "finishIndex",
     ],
 
     methods: {
-        emitHelper(emitted) {
-            this.$emit("wallDrawingMode", emitted)
+        drawEmitHelper(emitted) {
+            this.$emit("wallDrawingMode", emitted);
+        },
+
+        indexEmitHelper(emitted) {
+            this.$emit("updateIndex", emitted);
         },
     },
-
-    mounted() {
-
-    }
 }
 </script>
 

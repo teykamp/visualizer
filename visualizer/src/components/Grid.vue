@@ -5,11 +5,14 @@
                    @mouseup="isMouseDown = false"
                    >
       <div class="row" v-for="cellRow in cellList" v-bind:key="cellRow">
-          <CellRow v-bind:cellRow="cellRow"
-                   v-bind:isMouseDown="isMouseDown"
-                   v-bind:wallDrawingMode="wallDrawingMode"
-                   v-on:wallDrawingMode="emitHelper($event)"
-                   />
+          <CellRow  v-bind:cellRow="cellRow"
+                    v-bind:isMouseDown="isMouseDown"
+                    v-bind:wallDrawingMode="wallDrawingMode"
+                    v-bind:startIndex="startIndex"
+                    v-bind:finishIndex="finishIndex"
+                    v-on:wallDrawingMode="drawEmitHelper($event)"
+                    v-on:updateIndex="indexEmitHelper($event)"
+                    />
       </div>
     </div>
 
@@ -37,22 +40,44 @@ export default {
         cellSize: 30, // cellsize is default 30
         isMouseDown: false, // checks if mouse button pressed
         wallDrawingMode: false, // checks if adding or reomving walls based on first cell from mouse drag
+        startIndex: [0, 0], // index of START cell
+        finishIndex: [1, 1], // index of FINISH cell
+        wallList: [], // list of all wall cells by index
     }
   },
   methods: {
-
-    emitHelper(emitted) {
+    drawEmitHelper(emitted) {
         this.wallDrawingMode = emitted;
+    },
+
+    indexEmitHelper({action, index}) {
+      switch (action) {
+        case "removeWall":
+          this.wallList = this.wallList.filter(function(item) {
+            return item != index
+          })
+          break;
+
+        case "addWall":
+          this.wallList.push(index);
+          break;
+
+        case "updateStart":
+          if (index != this.finishIndex){
+            this.startIndex = index;
+          }
+          break;
+
+        case "updateFinish":
+          if (index !=this.startIndex) {
+            this.finishIndex = index;
+          }
+          break;
+      }
     },
 
     randomNumber(min, max) {
       return Math.random() * (max - min) + min;
-    },
-
-    trackSpecial() {
-      return
-      // update start/finish variable (add above)
-      // have cell emit coords when it becomes a start/finish (emit when mouse up)
     },
 
     generatePoints(num) {
@@ -105,6 +130,7 @@ export default {
     },
 
     generateGrid(boxSize) {
+      // TODO: change box size based on screen size. Smaller screens hae more dense boxes meaning that all screens have similar box count
       const rows = Math.floor(this.height / boxSize);
       const columns = Math.floor(this.width / boxSize);
       const xOffset = (this.width - columns * boxSize) / 2;
@@ -129,6 +155,8 @@ export default {
       cellStart.fillStyle = cellStart.cellType.START;
       let cellEnd = this.cellList[columns-1][rows-1];
       cellEnd.fillStyle = cellEnd.cellType.FINISH;
+      // init var (scalable)
+      this.finishIndex = [columns-1, rows-1];
     },
 
     init() {
