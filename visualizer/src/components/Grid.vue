@@ -4,7 +4,7 @@
     <div id="grid" @mousedown="isMouseDown = true"
                    @mouseup="isMouseDown = false"
                    >
-      <div class="row" v-for="cellRow in cellList" v-bind:key="cellRow">
+      <div class="row" v-for="(cellRow, x) in cellList" v-bind:key="x">
           <CellRow  v-bind:cellRow="cellRow"
                     v-bind:isMouseDown="isMouseDown"
                     v-bind:wallDrawingMode="wallDrawingMode"
@@ -63,15 +63,24 @@ export default {
           break;
 
         case "updateStart":
-          if (index != this.finishIndex){
+          var startCell = this.cellList[this.startIndex[0]][this.startIndex[1]];
+          if (index != this.finishIndex) {
             this.startIndex = index;
           }
+          startCell.setPrev();
+          startCell = this.cellList[this.startIndex[0]][this.startIndex[1]];
+          startCell.setStart();
           break;
 
         case "updateFinish":
-          if (index !=this.startIndex) {
+          console.log(this.finishIndex)
+          var finishCell = this.cellList[this.finishIndex[0]][this.finishIndex[1]];
+          if (index != this.startIndex) {
             this.finishIndex = index;
           }
+          finishCell.setPrev();
+          finishCell = this.cellList[this.finishIndex[0]][this.finishIndex[1]];
+          finishCell.setFinish();
           break;
       }
     },
