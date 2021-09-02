@@ -57,30 +57,18 @@ export default {
             return item != index
           })
           break;
-
         case "addWall":
           this.wallList.push(index);
           break;
 
         case "updateStart":
-          var startCell = this.cellList[this.startIndex[0]][this.startIndex[1]];
-          if (index != this.finishIndex) {
-            this.startIndex = index;
-          }
-          startCell.setPrev();
-          startCell = this.cellList[this.startIndex[0]][this.startIndex[1]];
-          startCell.setStart();
+          // console.log(this.cellList)
+          console.log(index)
+          // var tmpCell = this.cellList[index[0]][index[1]];
+          // console.log(tmpCell); // index out of range (too far in x and y). 40-27 is highest and this shows 41-0
           break;
-
         case "updateFinish":
-          console.log(this.finishIndex)
-          var finishCell = this.cellList[this.finishIndex[0]][this.finishIndex[1]];
-          if (index != this.startIndex) {
-            this.finishIndex = index;
-          }
-          finishCell.setPrev();
-          finishCell = this.cellList[this.finishIndex[0]][this.finishIndex[1]];
-          finishCell.setFinish();
+          this.finishIndex = index;
           break;
       }
     },
@@ -149,10 +137,10 @@ export default {
         for (let j = 0; j < rows; j++) {
           const x = i * boxSize + xOffset;
           const y = j * boxSize + yOffset;
-          let cell = new Cell(x, y, boxSize, this.globID, this.cellIndex);
+          let cell = new Cell(x, y, boxSize, this.globID, [...this.cellIndex]);
           cellColumn.push(cell);
           this.globID++;
-          this.cellIndex[1]++;
+          this.cellIndex[1]++; // are backwards????
         }
         this.cellIndex[1] = 0;
         this.cellIndex[0]++;
