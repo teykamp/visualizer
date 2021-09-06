@@ -42,8 +42,10 @@ export default {
                     this.$emit("updateIndex", {action: "addWall", index: this.cell.cellIndex});
                     break;
                 case this.cell.cellType.START:
-                    this.cell.setStart();
-                    this.$emit("updateIndex", {action: "updateStart", index: this.cell.cellIndex});
+                    if (!this.cell.isType("FINISH")) { // THIS WAS LATEST ADDITION, CHECK IT //////////////////////////////////////////////////////////////////////// doesnt seem to do anything
+                        this.cell.setStart(); // could be replaced by function in Grid.vue??
+                        this.$emit("updateIndex", {action: "updateStart", index: this.cell.cellIndex});
+                    }
                     break;
                 case this.cell.cellType.FINISH:
                     this.cell.setFinish();

@@ -54,7 +54,7 @@ export default {
       switch (action) {
         case "removeWall":
           this.wallList = this.wallList.filter(function(item) {
-            return item != index
+            return item != index;
           })
           break;
         case "addWall":
@@ -62,15 +62,26 @@ export default {
           break;
 
         case "updateStart":
-          // console.log(this.cellList)
-          console.log(index)
-          // var tmpCell = this.cellList[index[0]][index[1]];
-          // console.log(tmpCell); // index out of range (too far in x and y). 40-27 is highest and this shows 41-0
+          var tmpStart = this.cellList[this.startIndex[0]][this.startIndex[1]];
+          if (this.finishIndex == index) { // remember to set previous to whatever start/finish it was. maybe have a second prevous variable for walls when you move that one?>?? That will be mportant so it doesnt perma stay start/finish
+            this.cellList[index[0]][index[1]].setStart();
+            tmpStart.setFinish(); // want to spawn back wehre it was before dropped on finish! 
+            // TODO: make sure start/finish cant copy itself, meaning it has to chnge its index I think
+          }
+          else {
+            this.startIndex = index;
+          }
           break;
         case "updateFinish":
+          var tmpFinish = this.cellList[this.finishIndex[0]][this.finishIndex[1]];
+          if (this.startIndex == index) {
+            this.cellList[index[0]][index[1]].setFinish();
+            tmpFinish.setStart();
+          }
           this.finishIndex = index;
           break;
       }
+      console.log(this.startIndex, this.finishIndex)
     },
 
     randomNumber(min, max) {
@@ -137,7 +148,7 @@ export default {
         for (let j = 0; j < rows; j++) {
           const x = i * boxSize + xOffset;
           const y = j * boxSize + yOffset;
-          let cell = new Cell(x, y, boxSize, this.globID, [...this.cellIndex]);
+          let cell = new Cell(x, y, boxSize, this.globID, [...this.cellIndex]); // creates copy of index list
           cellColumn.push(cell);
           this.globID++;
           this.cellIndex[1]++; // are backwards????
