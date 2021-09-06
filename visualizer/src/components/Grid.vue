@@ -4,7 +4,7 @@
     <div id="grid" @mousedown="isMouseDown = true"
                    @mouseup="isMouseDown = false"
                    >
-      <div class="row" v-for="cellRow in cellList" v-bind:key="cellRow">
+      <div class="row" v-for="(cellRow, x) in cellList" v-bind:key="x">
           <CellRow  v-bind:cellRow="cellRow"
                     v-bind:isMouseDown="isMouseDown"
                     v-bind:wallDrawingMode="wallDrawingMode"
@@ -54,26 +54,34 @@ export default {
       switch (action) {
         case "removeWall":
           this.wallList = this.wallList.filter(function(item) {
-            return item != index
+            return item != index;
           })
           break;
-
         case "addWall":
           this.wallList.push(index);
           break;
 
         case "updateStart":
-          if (index != this.finishIndex){
+          var tmpStart = this.cellList[this.startIndex[0]][this.startIndex[1]];
+          if (this.finishIndex == index) { // remember to set previous to whatever start/finish it was. maybe have a second prevous variable for walls when you move that one?>?? That will be mportant so it doesnt perma stay start/finish
+            this.cellList[index[0]][index[1]].setStart();
+            tmpStart.setFinish(); // want to spawn back wehre it was before dropped on finish! 
+            // TODO: make sure start/finish cant copy itself, meaning it has to chnge its index I think
+          }
+          else {
             this.startIndex = index;
           }
           break;
-
         case "updateFinish":
-          if (index !=this.startIndex) {
-            this.finishIndex = index;
+          var tmpFinish = this.cellList[this.finishIndex[0]][this.finishIndex[1]];
+          if (this.startIndex == index) {
+            this.cellList[index[0]][index[1]].setFinish();
+            tmpFinish.setStart();
           }
+          this.finishIndex = index;
           break;
       }
+      console.log(this.startIndex, this.finishIndex)
     },
 
     randomNumber(min, max) {
@@ -140,10 +148,10 @@ export default {
         for (let j = 0; j < rows; j++) {
           const x = i * boxSize + xOffset;
           const y = j * boxSize + yOffset;
-          let cell = new Cell(x, y, boxSize, this.globID, this.cellIndex);
+          let cell = new Cell(x, y, boxSize, this.globID, [...this.cellIndex]); // creates copy of index list
           cellColumn.push(cell);
           this.globID++;
-          this.cellIndex[1]++;
+          this.cellIndex[1]++; // are backwards????
         }
         this.cellIndex[1] = 0;
         this.cellIndex[0]++;

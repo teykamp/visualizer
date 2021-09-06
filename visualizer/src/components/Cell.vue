@@ -32,23 +32,24 @@ export default {
 // TODO: make start/finish not draggable ontop of eachother
     methods: {
         toggleDraw() {
-            console.log(this.wallDrawingMode);
             switch (this.wallDrawingMode) {
                 case this.cell.cellType.WALL:
                     this.cell.removeWall();
-                    this.$emit("updateIndex", {action: "removeWall", index: this.cellIndex});
+                    this.$emit("updateIndex", {action: "removeWall", index: this.cell.cellIndex});
                     break;
                 case this.cell.cellType.EMPTY:
                     this.cell.setWall();
-                    this.$emit("updateIndex", {action: "addWall", index: this.cellIndex});
+                    this.$emit("updateIndex", {action: "addWall", index: this.cell.cellIndex});
                     break;
                 case this.cell.cellType.START:
-                    this.cell.setStart();
-                    this.$emit("updateIndex", {action: "updateStart", index: this.cellIndex});
+                    if (!this.cell.isType("FINISH")) { // THIS WAS LATEST ADDITION, CHECK IT //////////////////////////////////////////////////////////////////////// doesnt seem to do anything
+                        this.cell.setStart(); // could be replaced by function in Grid.vue??
+                        this.$emit("updateIndex", {action: "updateStart", index: this.cell.cellIndex});
+                    }
                     break;
                 case this.cell.cellType.FINISH:
                     this.cell.setFinish();
-                    this.$emit("updateIndex", {action: "updateFinish", index: this.cellIndex});
+                    this.$emit("updateIndex", {action: "updateFinish", index: this.cell.cellIndex});
                     break;
             }
             // this.wallDrawingMode ? this.cell.removeWall() : this.cell.setWall();
@@ -61,10 +62,11 @@ export default {
         },
 
         mouseOff() {
+            // only when drawing start/finish: set color to prev when mouse moves off
             if (this.isMouseDown) {
-                if (this.cell.fillStyle == this.cell.cellType.START || this.cell.fillStyle == this.cell.cellType.FINISH) {
-                    if (this.wallDrawingMode != this.cell.cellType.WALL && this.wallDrawingMode != this.cell.cellType.EMPTY) {
-                        this.cell.fillStyle = this.cell.prevType;
+                if (this.cell.isType("START") || this.cell.isType("FINISH")) {
+                    if (this.wallDrawingMode == this.cell.cellType.START || this.wallDrawingMode == this.cell.cellType.FINISH) {
+                        this.cell.setPrev();
                     }                    
                 }
             }

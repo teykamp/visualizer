@@ -19,6 +19,17 @@ export default class Cell {
         this.prevType = this.cellType.EMPTY;
     }
 
+    isType(type) {
+        // comparisons of types easier
+        const cellTypes = {
+            "WALL": this.cellType.WALL,
+            "START": this.cellType.START,
+            "FINISH": this.cellType.FINISH,
+            "EMPTY": this.cellType.EMPTY
+        };
+        return this.fillStyle == cellTypes[type];
+    }
+
     toggleWall() {
         this.fillStyle = (this.fillStyle == this.cellType.WALL) ? this.cellType.EMPTY : this.cellType.WALL;
     }
@@ -50,4 +61,9 @@ export default class Cell {
             this.fillStyle = this.cellType.FINISH;
         }
     }
+
+    setPrev() {
+        this.fillStyle = this.prevType;
+    }
+
 }
